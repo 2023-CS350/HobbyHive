@@ -4,7 +4,9 @@
 - [Software Design Document](#software-design-document)
   - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
+  - [Overview](#overview)
   - [Architectural Design](#architectural-design)
+    - [Class Diagram](#class-diagram)
     - [Main components](#main-components)
       - [Client-side Application](#client-side-application)
       - [Server-side Application](#server-side-application)
@@ -35,6 +37,37 @@
       - [Request](#request)
       - [Overall structure](#overall-structure)
       - [Constraints](#constraints)
+  - [Procedure Design](#procedure-design)
+    - [Use Case](#use-case)
+      - [Event Use Case](#event-use-case)
+      - [User Use Case](#user-use-case)
+    - [Sign Up and New Profile Set Up Sequences](#sign-up-and-new-profile-set-up-sequences)
+      - [Description](#description)
+      - [Sequences](#sequences)
+      - [Requirements](#requirements)
+    - [Sign in Sequences](#sign-in-sequences)
+      - [Description](#description-1)
+      - [Sequences](#sequences-1)
+    - [Retrieve Password Sequences](#retrieve-password-sequences)
+      - [Description](#description-2)
+      - [Sequences](#sequences-2)
+      - [Requirements](#requirements-1)
+    - [Create and Join Event](#create-and-join-event)
+      - [Description](#description-3)
+      - [Requirements](#requirements-2)
+    - [Chat sequences](#chat-sequences)
+      - [Description](#description-4)
+      - [Requirements](#requirements-3)
+  - [Interface Design](#interface-design)
+    - [Auth](#auth)
+    - [Bottom Navigation (as a component)](#bottom-navigation-as-a-component)
+    - [User Profile Input](#user-profile-input)
+    - [State](#state)
+    - [Profile and Event Managing](#profile-and-event-managing)
+    - [Settings](#settings)
+    - [Chat](#chat)
+    - [Notifications](#notifications)
+    - [Rating](#rating)
 
 
 ## Introduction
@@ -47,7 +80,17 @@ Some of the key features of HobbyHive include sign up, new profile set up, passw
 
 Overall, HobbyHive is designed to help people explore new hobbies and connect with others who share their interests. By providing a safe and welcoming environment for hobbyists of all kinds, HobbyHive aims to help people expand their horizons and discover new passions.
 
+## Overview
+
+![overview1](overview1.png)
+
+![overview2](overview2.png)
+
 ## Architectural Design
+
+### Class Diagram
+
+![class.png](class.png)
 
 ### Main components
 
@@ -148,7 +191,7 @@ The Factory Method Pattern is a design pattern that provides an interface for cr
 
 ### ER Model
 
-![ER Model](./ER_Model.png)
+![ER Model](ER_Model.png)
 
 #### Entities
 
@@ -386,3 +429,208 @@ Here, we try to clarify the constraints for attributes that did not appear in th
 
 1. hosting_events, participating_events, and participating_chatrooms in the user document should satisfy the referential constraint. Each id and name must keep consistent with event documents and chatroom documents
 2. participant_name, participant_profile_image, participant_interests, participant_biographie, and participant_score in request doesn’t need to keep consistency. If the cost of maintaining consistency is too high, it is okay to keep the information when the corresponding document is added.
+
+## Procedure Design
+
+### Use Case
+
+#### Event Use Case
+
+![usecase_host_guest-1.png](usecase_host_guest-1.png)
+
+HobbyHive is designed specifically for greater convenience in arranging hangouts and meeting up with new people that shares their absolute passion – dedicated to android, this mobile application targets outgoing individuals who might find it difficult to search for people that have the same interest or for those who just want to be the life of the party. Inspired by major dating apps like tinder, HobbyHive combines its integrative architecture into a platonic and interactive building block – focused entirely on meeting people alike. The first of its generation, HobbyHive creates a safe environment where people have the opportunity to look at the windows outside their world a bit further – no other than by setting up meeting times or joining other thrill-seeking groups. Fully flexible customization for user experience, with distance filters, personalized tags, individual ratings, and a familiar interface of swiping left and right – HobbyHive offers something not so foreign that we never knew we needed so much in our life.
+
+HobbyHive’s workflow is similar to a mixture of classic social media and dating websites – the users will be registered through their individualized accounts, created using their email or phone number. HobbyHive’s design offers multiple opportunities for both sides of the people – whether you are starting up an invitation or looking to join new ones.
+
+Participants could be outgoing people who love to try their hobbies but lack the friends or simply the resources to do so. They could also be people looking to try a new circle of things or meet up with new faces.
+
+The users need not specify whether they want to be the host or participants at the moment they
+sign up keep in mind that these functions are exclusive to the entity based on their intentions only and one may be a host or participants at any time – even a host can perform participant
+functions. 			
+
+#### User Use Case
+
+![usecase_signup-1.png](usecase_signup-1.png)
+
+### Sign Up and New Profile Set Up Sequences
+
+![seqeunce01.png](seqeunce01.png)
+
+#### Description
+
+The user will sign up to HobbyHive and make a profile for themselves. Since this is a very basic feature of any user-centric platform, it is of high priority. Users will also be able to register themselves with other accounts such as Google or Facebook. The option to register with an email, in the case of no other account, will also be possible. Users will also select a method of password retrieval. The user will get to set up their profile, by entering their display name, age, picking their interests, etc. 
+
+#### Sequences
+
+Upon downloading the app for the first time, the screen will display email and password
+fields, to register oneself. Beneath this will be buttons to sync one’s Google or
+Facebook accounts.
+
+1. When either field is tapped, the user’s keyboard will pop up.
+2. To proceed to the next page, the email field must have a valid email address. And the password field must have at least 8 characters, out of which some must be English letters, special characters (! @#$%^&*), and numbers.
+3. Once the information in the correct format is written, beneath the fields will appear the ‘Next’ button, which will take the user to the next page.
+4. When the account is registered, the following procedures will take place to learn about the
+user and give suggestions of meet-ups according to their interests, location, age, etc.
+5. When the ‘Next’ button is tapped, a screen that will take permission to access the user’s location, contacts and photos will show up.
+6. After that, the user will be asked for their display name, to upload a profile picture,
+and to select their interests.
+7. This information will be used to search for specially-catered meet-ups that the user
+may enjoy, and these will be then suggested to the user.
+
+#### Requirements
+
+1.  Record the user’s email address and password.
+2.  Indicate to the user, while typing and not after the “Next” button has been tapped, that there is an invalid input when the format of the inputted email does not match that of a standard email, and when there are illegal characters being used in the inputted password.
+
+3.  Record the age, display name, and interest information of the user.
+4.  Using the records, suggest upcoming events near them that fit their interests and for which they fit the age requirement.
+5.  Out of the suggested events they select, record and update the priority of their interests.
+
+### Sign in Sequences
+
+![seqeunce02.png](seqeunce02.png)
+
+#### Description
+
+SignIn process with Firebase
+
+#### Sequences
+
+1. The user will enter the information required to sign on the SignInPage
+2. It will be validated to match the user's information in Firebase.
+3. If it is validated, it will proceed to the MainPage.
+
+### Retrieve Password Sequences
+
+![seqeunce03.png](seqeunce02.png)
+
+#### Description
+
+Resetting passwords using Firebase's own functionality (sending password reset emails)
+
+#### Sequences
+
+1. Enter your email address and press the reset button.
+2. The user will receive an email to their email address to reset their password.
+
+#### Requirements
+
+1. Update the new password of the user.
+
+### Create and Join Event
+
+![seqeunce04.png](seqeunce04.png)
+
+#### Description
+
+This will allow users to create and arrange an event by being able to edit it, delete it, set its level of privacy, accept or reject users from it, invite users, remove users, remind the users and once it is over, mark it as completed.
+
+Users as guests can join already created events that match their interests and are happening nearby. The user can view event details and interact with other participants.
+
+#### Requirements
+
+1. Record the settings of the event, such as the privacy status, the number of 
+participants, etc.
+2. Control which users have access to the event’s details.
+3. Send a notification to the participants when the event is near.
+4. Provide essential event details( name, date, time, location, and brief
+description) in the event list.
+5. Display event information on the event details page, including host’s
+profile, detailed description, and list of attendees.
+6. Add users to the events when they tap the 'Join' button and add them to the 
+chat room.
+
+### Chat sequences
+
+![seqeunce05.png](seqeunce05.png)
+
+#### Description
+
+Sends the user's typed message to Firebase. Send a notification when Firebase recognizes that the database has changed, and fetch the chat data again.
+
+#### Requirements
+
+1. Create chats for users to exchange text messages, images, videos, and GIFs.
+2. Give the host access to settings unavailable to the other participants.
+
+## Interface Design
+
+### Auth
+
+![auth.png](auth.png)
+
+- **SignInPage**
+    - A page where users can sign in with their account information or with their Apple, Google, or Facebook account.
+    - If user is new to this app, they can register.
+    - If user forgot password, they can click “forgot password” and request mail to reset password.
+    - User can also change app’s language.
+- **PhoneSignInPage**: A page where users can sign in using their phone number.
+- **SignUpPage**: A page where new users can create an account or sign up with their Apple, Google, or Facebook account. User can register by either email or telephone number.
+- **PhoneVerificationSignUpPage**: A page where users can verify their phone number during the signup process.
+- **EmailVerificationPage**: A page where users can verify their email address.
+- **PhoneVerificationSignInPage**: A page where users can verify their phone number during the sign-in process.
+- **PasswordResetPage**: A page where users can reset their password if they forgot it.
+
+### Bottom Navigation (as a component)
+
+- The app includes a bottom navigation component that allows users to easily navigate between the following pages: **MainPage**, **AllChatPage**, **EventsPage**, and **MyProfilePage**.
+
+### User Profile Input
+
+![userprofileinput.png](userprofileinput.png)
+
+- **SelectLocationPage**: A page where users can select their location for events and other features in the app.
+- **SetPhotoProfilePage**: A page where users can set or change their profile picture.
+- **SetBaseInfoPage**: A page where users can set or change their basic information. There are display name, age, and interest information.
+
+
+### State
+
+![state](state.png)
+
+- **IsJoinedPage**: A page that confirms the user has joined an event. User can start a conversation directly, or just check and leave the page.
+- **EventsPage**: A page that shows a list of events for the user to select from. When the user clicks on an event, they are taken to the **GuestRatingPage** for that particular event.
+- **MainPage**
+    - The main page of the app that shows suggested events and other features.
+    - User can search events on the search bar located top of the screen.
+    - User can like or dislike for the suggested event.
+
+### Profile and Event Managing
+
+![managing](managing.png)
+
+- **MyProfilePage**
+    - A page that displays the user's profile information, including events they have hosted. If the user clicks on an event they hosted, they are taken to the **GuestsListPage** for that particular event.
+    - There are user’s display name, bio, interests, and event that user held before.
+- **EditProfilePage**: A page where users can edit their profile information.
+- **CreateEventPage**: A page where hosts can create a new event. You can select whether it is public or private.
+- **OtherProfilePage**: A page that displays the profile information of another user. The information is same to **MyProfilePage**, but there are “Start to 1:1 Chat” button that user can start personal chatting.
+- **EditEventPage**: A page where hosts can edit their created event.
+- **GuestsListPage**: A page that displays the list of guests attending a particular event. If the user clicks on a guest, they are taken to the **HostRatingPage** for that particular guest.
+
+### Settings
+
+![settings](settings.png)
+
+- **SettingsPage**: A page where users can manage their app settings, such as notification preferences and language.  
+
+### Chat
+
+![chats](chat.png)
+
+- **ChatPage**: A page where users can chat with each other one-on-one about a specific event.
+- **AllChatPage**: A page that shows all chat conversations the user has had with other users.
+
+### Notifications
+
+![natifications](notifications.png)
+
+- **NotificationsPage**: A page that displays all the notifications the user has received.
+    
+
+### Rating
+
+![ratings](ratings.png)
+
+- **GuestRatingPage**: A page where guests can rate their experience at a particular event.
+- **HostRatingPage**: A page where hosts can rate their experience with a particular guest who attended their event.
