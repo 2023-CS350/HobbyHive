@@ -1,0 +1,46 @@
+# Flutter/Dart-specific files
+**/doc/api/
+**/ios/Pods/
+**/android/.gradle/
+**/android/build/
+**/ios/Flutter/build/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/App.framework/
+**/ios/Flutter/Flutter.framework/
+**/ios/Flutter/GeneratedPluginRegistrant.h
+**/ios/Flutter/GeneratedPluginRegistrant.m
+**/ios/Flutter/flutter_assets/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+/build/
+
+# Android-specific files
+**/android/local.properties
+**/android/.idea/workspace.xml
+**/android/.idea/tasks.xml
+**/android/.idea/gradle.xml
+**/android/.idea/assetWizardSettings.xml
+**/android/.idea/dictionaries
+**/android/.idea/libraries
+**/android/build/
+
+# IntelliJ-specific files
+**/*.iml
+**/*.ipr
+**/*.iws
+.idea/
+
+# VS Code-specific files
+**/.vscode/
+
+# macOS-specific files
+**/.DS_Store
+
+# Flutter build cache
+.dart_tool/flutter_build/
+
+# Flutter Web output directory
+**/build/web/
