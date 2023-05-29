@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  auto_size_text: 3.0.0
   cupertino_icons: ^1.0.2
   provider: ^6.0.5
   dropdown_button2: 2.0.0
