@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:hobby_hive/pages/sign_in_page.dart';
 import 'package:hobby_hive/providers/user_provider.dart';
 import 'package:provider/provider.dart';
-
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
