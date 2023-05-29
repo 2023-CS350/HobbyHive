@@ -36,6 +36,7 @@ dependencies:
   firebase_auth: ^4.6.1
   font_awesome_flutter: 10.1.0
   google_fonts: 4.0.3
+  swipeable_card_stack: 0.0.5
 
 dev_dependencies:
   flutter_test:
