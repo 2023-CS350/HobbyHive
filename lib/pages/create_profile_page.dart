@@ -29,7 +29,6 @@ class CreateProfilePageModel extends HobbyHiveModel {
   }
 
   /// Additional helper methods are added here.
-
 }
 
 class CreateProfilePageWidget extends StatefulWidget {
@@ -79,9 +78,7 @@ class _CreateProfilePageWidgetState extends State<CreateProfilePageWidget> {
             color: Colors.white,
             size: 30.0,
           ),
-          onPressed: () async {
-            context.pop();
-          },
+          onPressed: () async {},
         ),
         title: Text(
           'Create your profile',
@@ -289,13 +286,12 @@ class _CreateProfilePageWidgetState extends State<CreateProfilePageWidget> {
                     iconPadding:
                         EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                     color: HobbyHiveTheme.of(context).primary,
-                    textStyle:
-                        HobbyHiveTheme.of(context).titleMedium.override(
-                              fontFamily: 'Outfit',
-                              color: Colors.white,
-                              fontSize: 18.0,
-                              fontWeight: FontWeight.normal,
-                            ),
+                    textStyle: HobbyHiveTheme.of(context).titleMedium.override(
+                          fontFamily: 'Outfit',
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.normal,
+                        ),
                     elevation: 2.0,
                     borderSide: BorderSide(
                       color: Colors.transparent,

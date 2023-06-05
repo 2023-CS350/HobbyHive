@@ -1,6 +1,7 @@
 import 'package:hobby_hive/components/swipeable_stack.dart';
 import 'package:hobby_hive/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/model.dart';
 import 'package:swipeable_card_stack/swipeable_card_stack.dart';
 
 class MainPageModel extends HobbyHiveModel {
@@ -18,7 +19,6 @@ class MainPageModel extends HobbyHiveModel {
   void dispose() {}
 
   /// Additional helper methods are added here.
-
 }
 
 class MainPageWidget extends StatefulWidget {

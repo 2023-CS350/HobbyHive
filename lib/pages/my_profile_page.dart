@@ -3,6 +3,7 @@ import 'package:hobby_hive/theme.dart';
 import 'package:hobby_hive/widgets.dart';
 import 'package:hobby_hive/components/form_field_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/model.dart';
 
 class MyProfilePageModel extends HobbyHiveModel {
   ///  State fields for stateful widgets in this page.
@@ -27,7 +28,6 @@ class MyProfilePageModel extends HobbyHiveModel {
   }
 
   /// Additional helper methods are added here.
-
 }
 
 class MyProfilePageWidget extends StatefulWidget {
@@ -112,20 +112,18 @@ class _MyProfilePageWidgetState extends State<MyProfilePageWidget> {
                     obscureText: false,
                     decoration: InputDecoration(
                       labelText: 'Your Name',
-                      labelStyle:
-                          HobbyHiveTheme.of(context).bodySmall.override(
-                                fontFamily: 'Outfit',
-                                color: Color(0xFF57636C),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
-                      hintStyle:
-                          HobbyHiveTheme.of(context).bodySmall.override(
-                                fontFamily: 'Outfit',
-                                color: Color(0xFF57636C),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
+                      labelStyle: HobbyHiveTheme.of(context).bodySmall.override(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF57636C),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                          ),
+                      hintStyle: HobbyHiveTheme.of(context).bodySmall.override(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF57636C),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                          ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFFF1F4F8),
@@ -178,20 +176,18 @@ class _MyProfilePageWidgetState extends State<MyProfilePageWidget> {
                     obscureText: false,
                     decoration: InputDecoration(
                       labelText: 'Your City',
-                      labelStyle:
-                          HobbyHiveTheme.of(context).bodySmall.override(
-                                fontFamily: 'Outfit',
-                                color: Color(0xFF57636C),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
-                      hintStyle:
-                          HobbyHiveTheme.of(context).bodySmall.override(
-                                fontFamily: 'Outfit',
-                                color: Color(0xFF57636C),
-                                fontSize: 14.0,
-                                fontWeight: FontWeight.normal,
-                              ),
+                      labelStyle: HobbyHiveTheme.of(context).bodySmall.override(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF57636C),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                          ),
+                      hintStyle: HobbyHiveTheme.of(context).bodySmall.override(
+                            fontFamily: 'Outfit',
+                            color: Color(0xFF57636C),
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.normal,
+                          ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(
                           color: Color(0xFFF1F4F8),
@@ -247,8 +243,7 @@ class _MyProfilePageWidgetState extends State<MyProfilePageWidget> {
                         setState(() => _model.dropDownValue = val),
                     width: double.infinity,
                     height: 50.0,
-                    searchHintTextStyle:
-                        HobbyHiveTheme.of(context).labelMedium,
+                    searchHintTextStyle: HobbyHiveTheme.of(context).labelMedium,
                     textStyle: HobbyHiveTheme.of(context).bodyMedium.override(
                           fontFamily: 'Outfit',
                           color: HobbyHiveTheme.of(context).secondaryText,

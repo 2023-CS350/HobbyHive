@@ -2,9 +2,8 @@ import 'package:hobby_hive/animation.dart';
 import 'package:hobby_hive/theme.dart';
 import 'package:hobby_hive/widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:hobby_hive/model.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class AuthPageModel extends HobbyHiveModel {
   ///  State fields for stateful widgets in this page.
@@ -39,9 +38,7 @@ class AuthPageModel extends HobbyHiveModel {
   }
 
   /// Additional helper methods are added here.
-
 }
-
 
 class AuthPageWidget extends StatefulWidget {
   const AuthPageWidget({Key? key}) : super(key: key);
@@ -243,8 +240,7 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                               fontWeight: FontWeight.w500,
                                             ),
                                         indicatorColor:
-                                            HobbyHiveTheme.of(context)
-                                                .primary,
+                                            HobbyHiveTheme.of(context).primary,
                                         indicatorWeight: 3.0,
                                         tabs: [
                                           Tab(
@@ -290,8 +286,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                       'Create Account',
                                                       textAlign:
                                                           TextAlign.start,
-                                                      style: HobbyHiveTheme
-                                                              .of(context)
+                                                      style: HobbyHiveTheme.of(
+                                                              context)
                                                           .headlineMedium
                                                           .override(
                                                             fontFamily:
@@ -608,7 +604,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     0.0,
                                                                     0.0,
                                                                     16.0),
-                                                        child: HobbyHiveButtonWidget(
+                                                        child:
+                                                            HobbyHiveButtonWidget(
                                                           onPressed: () {
                                                             print(
                                                                 'Button pressed ...');
@@ -702,8 +699,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                       'Welcome Back',
                                                       textAlign:
                                                           TextAlign.start,
-                                                      style: HobbyHiveTheme
-                                                              .of(context)
+                                                      style: HobbyHiveTheme.of(
+                                                              context)
                                                           .headlineMedium
                                                           .override(
                                                             fontFamily:
@@ -1020,7 +1017,8 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
                                                                     0.0,
                                                                     0.0,
                                                                     16.0),
-                                                        child: HobbyHiveButtonWidget(
+                                                        child:
+                                                            HobbyHiveButtonWidget(
                                                           onPressed: () {
                                                             print(
                                                                 'Button pressed ...');
@@ -1103,5 +1101,12 @@ class _AuthPageWidgetState extends State<AuthPageWidget>
         ),
       ),
     );
+  }
+
+  responsiveVisibility(
+      {required BuildContext context,
+      required bool phone,
+      required bool tablet}) {
+    return true;
   }
 }
