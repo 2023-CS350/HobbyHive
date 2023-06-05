@@ -12,3 +12,5 @@ key.properties
 **/*.keystore
 **/*.jks
 !/ci.jks
+/app/release/app-release.aab
+/fastlane/api.json

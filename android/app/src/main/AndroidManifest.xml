@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.hobby_hive">
+    package="org.cs350.hobby_hive">
    <application
         android:label="hobby_hive"
         android:name="${applicationName}"

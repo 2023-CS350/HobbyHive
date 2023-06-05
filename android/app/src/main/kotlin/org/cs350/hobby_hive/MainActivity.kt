@@ -1,4 +1,4 @@
-package com.example.hobby_hive_app
+package org.cs350.hobby_hive
 
 import io.flutter.embedding.android.FlutterActivity
 
