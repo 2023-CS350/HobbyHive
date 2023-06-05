@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hobby_hive/pages/create_event_page.dart';
 import 'package:hobby_hive/pages/sign_in_page.dart';
 import 'package:hobby_hive/pages/sign_up_page.dart';
+import 'package:hobby_hive/pages/view_profile_page.dart';
 import 'package:hobby_hive/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -36,7 +37,8 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-        home: const SignInPage(),
+        //  home: SignInPage(),
+        home: SignInPage(),
       ),
     );
   }
