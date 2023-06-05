@@ -1,52 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:hobby_hive/pages/sign_up_page.dart';
 
-class SignInPage extends StatefulWidget {
-  const SignInPage({Key? key}) : super(key: key);
+class SignUpPage extends StatefulWidget {
+  const SignUpPage({super.key});
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  State<SignUpPage> createState() => _SignUpPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
-  bool _isPasswordVisible = true;
-  /* 
-  //로직 테스트
-  FirebaseAuth auth = FirebaseAuth.instance;
-  void signUpTest() async {
-    FirebaseFirestore.instance
-        .collection('test')
-        .get()
-        .then((QuerySnapshot querySnapshot) {
-      querySnapshot.docs.forEach((doc) {
-        print(doc["s"]);
-      });
-    });
-    try {
-      // Create a new user
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: "skykhs3@naver.com",
-        password: "testtest",
-      );
-
-      print("User signed up: ${userCredential.user!.email}");
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
-  */
+class _SignUpPageState extends State<SignUpPage> {
+  bool _isPasswordVisible1 = false;
+  bool _isPasswordVisible2 = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            // Leading 버튼 클릭 시 실행되는 로직
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -67,7 +43,7 @@ class _SignInPageState extends State<SignInPage> {
               ),
               SizedBox(height: 15),
               TextField(
-                obscureText: _isPasswordVisible, // 비밀번호 숨김 설정
+                obscureText: !_isPasswordVisible1, // 비밀번호 숨김 설정
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock), // 자물쇠 아이콘 추가
                   hintText: 'Password',
@@ -79,13 +55,39 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
-                      _isPasswordVisible
+                      _isPasswordVisible1
                           ? Icons.visibility
                           : Icons.visibility_off,
                     ),
                     onPressed: () {
                       setState(() {
-                        _isPasswordVisible = !_isPasswordVisible;
+                        _isPasswordVisible1 = !_isPasswordVisible1;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(height: 15),
+              TextField(
+                obscureText: !_isPasswordVisible2, // 비밀번호 숨김 설정
+                decoration: InputDecoration(
+                  prefixIcon: Icon(Icons.lock), // 자물쇠 아이콘 추가
+                  hintText: 'Confirm the password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20.0),
+                    borderSide: BorderSide(
+                      color: Colors.white, // 테두리 색상을 흰색으로 설정
+                    ),
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible2
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible2 = !_isPasswordVisible2;
                       });
                     },
                   ),
@@ -93,12 +95,13 @@ class _SignInPageState extends State<SignInPage> {
               ),
               SizedBox(height: 10),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       // signUpTest();
                     },
-                    child: Text('Login'),
+                    child: Text('Register'),
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                         borderRadius:
@@ -106,30 +109,8 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  InkWell(onTap: () {}, child: Text("Forgot your password?"))
                 ],
               ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text("You don't have an account?"),
-                        SizedBox(width: 5),
-                        Text("Register"),
-                      ],
-                    ),
-                  ),
-                  Spacer()
-                ],
-              )
             ],
           ),
         ),
