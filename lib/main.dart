@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/pages/create_event_page.dart';
 import 'package:hobby_hive/pages/sign_in_page.dart';
 import 'package:hobby_hive/pages/sign_up_page.dart';
 import 'package:hobby_hive/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_core/firebase_core.dart';
-void main() async{
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_)=> UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -34,8 +36,7 @@ class MyApp extends StatelessWidget {
           // is not restarted.
           primarySwatch: Colors.blue,
         ),
-      //  home: SignInPage(),
-        home: SignInPage(),
+        home: const SignInPage(),
       ),
     );
   }
