@@ -23,6 +23,44 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5766606567:android:517f1b608bc071f7d8bc42",
+        "android_client_info": {
+          "package_name": "com.mycompany.cs350ui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfjMCCxRORUId6cyXqZb6NBtJumRLVNaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5766606567:android:849f961a07bd8464d8bc42",
+        "android_client_info": {
+          "package_name": "org.cs350.hobby_hive"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfjMCCxRORUId6cyXqZb6NBtJumRLVNaY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"

@@ -55,7 +55,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBfjMCCxRORUId6cyXqZb6NBtJumRLVNaY',
-    appId: '1:5766606567:android:c866599d202b14a8d8bc42',
+    appId: '1:5766606567:android:849f961a07bd8464d8bc42',
     messagingSenderId: '5766606567',
     projectId: 'cs350-hobby-hive',
     storageBucket: 'cs350-hobby-hive.appspot.com',
