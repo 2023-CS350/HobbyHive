@@ -35,6 +35,7 @@ dependencies:
   provider: ^6.0.5
   dropdown_button2: 2.0.0
   firebase_auth: ^4.6.1
+  flutter_animate: 4.1.1+1
   font_awesome_flutter: 10.1.0
   google_fonts: 4.0.3
   swipeable_card_stack: 0.0.5
