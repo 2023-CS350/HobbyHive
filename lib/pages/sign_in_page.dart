@@ -3,6 +3,65 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:hobby_hive/pages/sign_up_page.dart';
 
+class LandingPage extends StatefulWidget {
+  const LandingPage({Key? key}) : super(key: key);
+
+  @override
+  State<LandingPage> createState() => _LandingPageState();
+}
+
+class _LandingPageState extends State<LandingPage> {
+  bool _isPasswordVisible = false;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String _signInErrorText = "";
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: SafeArea(
+        child: DefaultTabController(
+          length: 2,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              children: [
+                TabBar(
+                  labelColor: Colors.black,
+                  unselectedLabelColor: Colors.grey,
+                  tabs: [
+                    Tab(
+                      text: 'Create Account',
+                    ),
+                    Tab(
+                      text: 'Log In',
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      SignUpPage(),
+                      
+                      SignInPage(),
+                      
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -11,7 +70,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool _isPasswordVisible = true;
+  bool _isPasswordVisible = false;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   String _signInErrorText = "";
@@ -108,7 +167,7 @@ class _SignInPageState extends State<SignInPage> {
               SizedBox(height: 15),
               TextField(
                 controller: _passwordController,
-                obscureText: _isPasswordVisible, // 비밀번호 숨김 설정
+                obscureText: !_isPasswordVisible, // 비밀번호 숨김 설정
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock), // 자물쇠 아이콘 추가
                   hintText: 'Password',
@@ -166,30 +225,10 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                   ),
-                  SizedBox(width: 10),
-                  InkWell(onTap: () {}, child: Text("Forgot your password?"))
+                  
                 ],
               ),
-              Row(
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => SignUpPage()),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text("You don't have an account?"),
-                        SizedBox(width: 5),
-                        Text("Register"),
-                      ],
-                    ),
-                  ),
-                  Spacer()
-                ],
-              )
+        
             ],
           ),
         ),

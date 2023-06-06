@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:hobby_hive/pages/main_page.dart';
 import 'package:hobby_hive/widgets/loading_indicator.dart';
 
-class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({super.key});
+class NavigationPage extends StatefulWidget {
+  const NavigationPage({super.key});
 
   @override
-  State<BottomNavigationPage> createState() => _BottomNavigationPageState();
+  State<NavigationPage> createState() => _NavigationPageState();
 }
 
-class _BottomNavigationPageState extends State<BottomNavigationPage> {
+class _NavigationPageState extends State<NavigationPage> {
   int _currentIndex = 0;
   final _pageList = [
     MainPage(),

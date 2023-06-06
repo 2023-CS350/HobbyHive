@@ -19,20 +19,13 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            // Leading 버튼 클릭 시 실행되는 로직
-            Navigator.pop(context);
-          },
-        ),
-      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
+              Text("Create Account"),
+              Text("Let's go started by filling out the form below."),
               TextField(
                 controller: _emailTextController,
                 keyboardType: TextInputType.emailAddress,
@@ -74,59 +67,34 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
               ),
-              SizedBox(height: 15),
-              TextField(
-                controller: _passwordCheckTextController,
-                obscureText: !_isPasswordCheckVisible, // 비밀번호 숨김 설정
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock), // 자물쇠 아이콘 추가
-                  hintText: 'Confirm the password',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(20.0),
-                    borderSide: BorderSide(
-                      color: Colors.white, // 테두리 색상을 흰색으로 설정
-                    ),
-                  ),
-                  suffixIcon: IconButton(
-                    icon: Icon(
-                      _isPasswordCheckVisible
-                          ? Icons.visibility
-                          : Icons.visibility_off,
-                    ),
-                    onPressed: () {
-                      setState(() {
-                        _isPasswordCheckVisible = !_isPasswordCheckVisible;
-                      });
-                    },
-                  ),
-                ),
-              ),
               SizedBox(height: 10),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      await _firebaseSignUp(_emailTextController.text.trim(),
+                      bool result = await _firebaseSignUp(
+                          _emailTextController.text.trim(),
                           _passwordTextController.text.trim());
-                      showDialog(
-                        context: context,
-                        barrierDismissible: false, // 바깥을 탭해도 대화상자가 닫히지 않습니다.
-                        builder: (context) {
-                          return AlertDialog(
-                            content: Text("$_signUpFailMessageText"),
-                            actions: <Widget>[
-                              TextButton(
-                                child: Text('OK'),
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pop(); // OK 버튼을 누르면 대화상자를 닫습니다.
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
+                      if (result == false)
+                        showDialog(
+                          context: context,
+                          barrierDismissible: false, // 바깥을 탭해도 대화상자가 닫히지 않습니다.
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text("$_signUpFailMessageText"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text('OK'),
+                                  onPressed: () {
+                                    Navigator.of(context)
+                                        .pop(); // OK 버튼을 누르면 대화상자를 닫습니다.
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
                     },
                     child: Text('Register'),
                     style: ElevatedButton.styleFrom(
@@ -145,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Future<void> _firebaseSignUp(String email, String password) async {
+  Future<bool> _firebaseSignUp(String email, String password) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
@@ -184,6 +152,10 @@ class _SignUpPageState extends State<SignUpPage> {
           _signUpFailMessageText = "An undefined Error happened.";
         });
       }
+      return false;
     }
+    return true;
+    
   }
+  
 }

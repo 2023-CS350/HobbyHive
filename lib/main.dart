@@ -62,7 +62,7 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.pink,
         ),
         //  home: SignInPage(),
-        home: _currentUser == null ? SignInPage():BottomNavigationPage(),
+        home: _currentUser == null ? LandingPage():NavigationPage(),
        // home:MainPage(title: "d"),
       ),
     );
