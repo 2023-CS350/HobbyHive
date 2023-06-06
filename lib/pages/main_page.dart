@@ -2,19 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
-class MainPage extends StatefulWidget {
+enum ButtonType {
+  nope,
+  like,
+}
 
-  final String? title="s";
+class MainPage extends StatefulWidget {
+  const MainPage({super.key});
 
   @override
   _MainPageState createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {
-  List<SwipeItem> _swipeItems = <SwipeItem>[];
+  final List<SwipeItem> _swipeItems = <SwipeItem>[];
   MatchEngine? _matchEngine;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
-  List<String> _names = [
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
+  final List<String> _names = [
     "Red",
     "Blue",
     "Green",
@@ -24,7 +28,7 @@ class _MainPageState extends State<MainPage> {
     "Purple",
     "Pink"
   ];
-  List<Color> _colors = [
+  final List<Color> _colors = [
     Colors.red,
     Colors.blue,
     Colors.green,
@@ -71,85 +75,85 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text(widget.title!),
-        ),
-        body: Container(
-            child: Stack(children: [
-          Container(
-            height: MediaQuery.of(context).size.height - kToolbarHeight,
-            child: SwipeCards(
-              matchEngine: _matchEngine!,
-              itemBuilder: (BuildContext context, int index) {
-                return Container(
-                  alignment: Alignment.center,
-                  color: _swipeItems[index].content.color,
-                  child: Text(
-                    _swipeItems[index].content.text,
-                    style: TextStyle(fontSize: 100),
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+            child: Container(
+                child: Stack(children: [
+              Container(
+                height: MediaQuery.of(context).size.height - kToolbarHeight,
+                child: SwipeCards(
+                  matchEngine: _matchEngine!,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Container(
+                      alignment: Alignment.center,
+                      color: _swipeItems[index].content.color,
+                      child: Text(
+                        _swipeItems[index].content.text,
+                        style: TextStyle(fontSize: 100),
+                      ),
+                    );
+                  },
+                  onStackFinished: () {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      content: Text("Stack Finished"),
+                      duration: Duration(milliseconds: 500),
+                    ));
+                  },
+                  itemChanged: (SwipeItem item, int index) {
+                    print("item: ${item.content.text}, index: $index");
+                  },
+                  leftSwipeAllowed: true,
+                  rightSwipeAllowed: true,
+                  upSwipeAllowed: false,
+                  fillSpace: true,
+                  likeTag: Container(
+                    margin: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(3.0),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.green)),
+                    child: Text('Like'),
                   ),
-                );
-              },
-              onStackFinished: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text("Stack Finished"),
-                  duration: Duration(milliseconds: 500),
-                ));
-              },
-              itemChanged: (SwipeItem item, int index) {
-                print("item: ${item.content.text}, index: $index");
-              },
-              leftSwipeAllowed: true,
-              rightSwipeAllowed: true,
-              upSwipeAllowed: false,
-              fillSpace: true,
-              likeTag: Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(3.0),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.green)),
-                child: Text('Like'),
+                  nopeTag: Container(
+                    margin: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(3.0),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.red)),
+                    child: Text('Nope'),
+                  ),
+                  superLikeTag: Container(
+                    margin: const EdgeInsets.all(15.0),
+                    padding: const EdgeInsets.all(3.0),
+                    decoration:
+                        BoxDecoration(border: Border.all(color: Colors.orange)),
+                    child: Text('Super Like'),
+                  ),
+                ),
               ),
-              nopeTag: Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(3.0),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.red)),
-                child: Text('Nope'),
-              ),
-              superLikeTag: Container(
-                margin: const EdgeInsets.all(15.0),
-                padding: const EdgeInsets.all(3.0),
-                decoration:
-                    BoxDecoration(border: Border.all(color: Colors.orange)),
-                child: Text('Super Like'),
-              ),
-            ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    RoundedTransparentButton(
+                      onPressed: () {
+                        _matchEngine!.currentItem?.nope();
+                      },
+                      kind: ButtonType.nope,
+                    ),
+                    RoundedTransparentButton(
+                      onPressed: () {
+                        _matchEngine!.currentItem?.like();
+                      },
+                      kind: ButtonType.like,
+                    ),
+                  
+                  ],
+                ),
+              )
+            ])),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      _matchEngine!.currentItem?.nope();
-                    },
-                    child: Text("Nope")),
-                // ElevatedButton(
-                //     onPressed: () {
-                //       _matchEngine!.currentItem?.superLike();
-                //     },
-                //     child: Text("Superlike")),
-                ElevatedButton(
-                    onPressed: () {
-                      _matchEngine!.currentItem?.like();
-                    },
-                    child: Text("Like"))
-              ],
-            ),
-          )
-        ])));
+        ));
   }
 }
 
@@ -161,103 +165,55 @@ class Content {
   final String? hobby;
   final String? distance;
 
-
-  Content({this.imageURL, this.name, this.hobby, this.distance, this.text, this.color});
+  Content(
+      {this.imageURL,
+      this.name,
+      this.hobby,
+      this.distance,
+      this.text,
+      this.color});
 }
-// import 'package:flutter/material.dart';
 
-// class MainPage extends StatefulWidget {
-//   const MainPage({super.key});
+class RoundedTransparentButton extends StatelessWidget {
+  final VoidCallback onPressed;
+  final ButtonType kind;
 
-//   @override
-//   State<MainPage> createState() => _MainPageState();
-// }
+  RoundedTransparentButton({required this.onPressed, required this.kind});
 
-// class _MainPageState extends State<MainPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Center(
-//         child: SwappableWidget(),
-//       ),
-//     );
-//   }
-// }
-
-// class SwappableWidget extends StatefulWidget {
-//   @override
-//   _SwappableWidgetState createState() => _SwappableWidgetState();
-// }
-
-// class _SwappableWidgetState extends State<SwappableWidget> {
-//   int? _draggedIndex=0;
-//   List<String> _items = ['Item 1', 'Item 2', 'Item 3', 'Item 4'];
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: Text('Swappable Widget'),
-//       ),
-//       body: GridView.builder(
-//         itemCount: _items.length,
-//         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//           crossAxisCount: 2,
-//         ),
-//         itemBuilder: (BuildContext context, int index) {
-//           return DragTarget<int>(
-//             onAccept: (int draggedIndex) {
-//               setState(() {
-//                 final item = _items[draggedIndex];
-//                 _items.removeAt(draggedIndex);
-//                 _items.insert(index, item);
-//                 _draggedIndex = null;
-//               });
-//             },
-//             onWillAccept: (int? draggedIndex) {
-//               return true;
-//             },
-//             onLeave: (data) {
-//               _draggedIndex = null;
-//             },
-//             builder: (BuildContext context, List<dynamic> candidateData, List<dynamic> rejectedData) {
-//               return Draggable<int>(
-//                 data: index,
-//                 child: Container(
-//                   padding: EdgeInsets.all(8),
-//                   color: Colors.blue,
-//                   child: Center(
-//                     child: Text(
-//                       _items[index],
-//                       style: TextStyle(color: Colors.white),
-//                     ),
-//                   ),
-//                 ),
-//                 feedback: Container(
-//                   padding: EdgeInsets.all(8),
-//                   color: Colors.blue.withOpacity(0.7),
-//                   child: Center(
-//                     child: Text(
-//                       _items[index],
-//                       style: TextStyle(color: Colors.white),
-//                     ),
-//                   ),
-//                 ),
-//                 onDragStarted: () {
-//                   setState(() {
-//                     _draggedIndex = index;
-//                   });
-//                 },
-//                 onDraggableCanceled: (Velocity velocity, Offset offset) {
-//                   setState(() {
-//                     _draggedIndex = null;
-//                   });
-//                 },
-//               );
-//             },
-//           );
-//         },
-//       ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    return kind == ButtonType.like
+        ? ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              side: BorderSide(color: Colors.green, width: 2.0),
+              shape: CircleBorder(),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              child: Icon(
+                Icons.favorite,
+                color: Colors.green,
+                size: 40.0,
+              ),
+            ),
+          )
+        : ElevatedButton(
+            onPressed: onPressed,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.transparent,
+              side: BorderSide(color: Colors.red, width: 2.0),
+              shape: CircleBorder(),
+            ),
+            child: Padding(
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+              child: Icon(
+                Icons.clear,
+                color: Colors.red,
+                size: 40.0,
+              ),
+            ),
+          );
+  }
+}
