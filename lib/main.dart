@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hobby_hive/pages/create_event_page.dart';
+import 'package:hobby_hive/pages/main_page.dart';
 import 'package:hobby_hive/pages/sign_in_page.dart';
 import 'package:hobby_hive/pages/sign_up_page.dart';
 import 'package:hobby_hive/pages/view_profile_page.dart';
@@ -10,6 +12,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  
   runApp(const MyApp());
 }
 
@@ -19,6 +22,7 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    User? user = FirebaseAuth.instance.currentUser;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
@@ -38,7 +42,8 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         //  home: SignInPage(),
-        home: SignInPage(),
+        home: user == null ? SignInPage():MainPage(),
+       // home:MainPage(title: "d"),
       ),
     );
   }
