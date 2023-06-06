@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hobby_hive/pages/main_page.dart';
 
@@ -13,7 +14,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   final _pageList = [
     MainPage(),
     Placeholder(),
-    Placeholder(),
+    TempSignOut(),
   ];
   void onTabTapped(int index) {
     setState(() {
@@ -25,10 +26,9 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pageList[_currentIndex],
-      
       bottomNavigationBar: BottomNavigationBar(
         onTap: onTabTapped,
-        currentIndex : _currentIndex,
+        currentIndex: _currentIndex,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -45,5 +45,28 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         ],
       ),
     );
+  }
+}
+
+class TempSignOut extends StatefulWidget {
+  const TempSignOut({super.key});
+
+  @override
+  State<TempSignOut> createState() => _TempSignOutState();
+}
+
+class _TempSignOutState extends State<TempSignOut> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    print("d");
+    _auth.signOut();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
