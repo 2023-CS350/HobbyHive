@@ -3,9 +3,8 @@ import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage({Key? key, this.title}) : super(key: key);
 
-  final String? title;
+  final String? title="s";
 
   @override
   _MainPageState createState() => _MainPageState();
