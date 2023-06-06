@@ -12,6 +12,9 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> {
   bool _isPasswordVisible = true;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String _signInErrorText = "";
   /* 
   //로직 테스트
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -43,6 +46,42 @@ class _SignInPageState extends State<SignInPage> {
     }
   }
   */
+  Future<bool> signInTest() async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    try {
+      final UserCredential userCredential =
+          await _auth.signInWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
+      );
+      // Login successful, perform desired actions
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        setState(() {
+          _signInErrorText = 'No user found with this email.';
+        });
+      } else if (e.code == 'wrong-password') {
+        setState(() {
+          _signInErrorText = 'Wrong password provided.';
+        });
+      } else if (e.code == 'invalid-email') {
+        setState(() {
+          _signInErrorText = 'Invalid email address.';
+        });
+      } else {
+        setState(() {
+          _signInErrorText = 'An error occurred. Please try again later.';
+        });
+      }
+      return false;
+    } catch (e) {
+      setState(() {
+        _signInErrorText = 'An error occurred. Please try again later.';
+      });
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +92,7 @@ class _SignInPageState extends State<SignInPage> {
           child: Column(
             children: [
               TextField(
+                controller: _emailController,
                 keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.email), // 이메일 아이콘 추가
@@ -67,6 +107,7 @@ class _SignInPageState extends State<SignInPage> {
               ),
               SizedBox(height: 15),
               TextField(
+                controller: _passwordController,
                 obscureText: _isPasswordVisible, // 비밀번호 숨김 설정
                 decoration: InputDecoration(
                   prefixIcon: Icon(Icons.lock), // 자물쇠 아이콘 추가
@@ -95,8 +136,27 @@ class _SignInPageState extends State<SignInPage> {
               Row(
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      // signUpTest();
+                    onPressed: () async {
+                      bool result = await signInTest();
+                      if(result==false) showDialog(
+                        context: context,
+                        barrierDismissible: false, // 바깥을 탭해도 대화상자가 닫히지 않습니다.
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Text("$_signInErrorText"),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pop(); // OK 버튼을 누르면 대화상자를 닫습니다.
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      
                     },
                     child: Text('Login'),
                     style: ElevatedButton.styleFrom(

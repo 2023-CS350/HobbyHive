@@ -17,13 +17,32 @@ void main() async {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  FirebaseAuth? _auth;
+  User? _currentUser;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _auth = FirebaseAuth.instance;
+    _currentUser = _auth?.currentUser;
+
+    _auth?.authStateChanges().listen((User? user) {
+      setState(() {
+        _currentUser = user;
+      });
+    });
+  }
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    User? user = FirebaseAuth.instance.currentUser;
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
@@ -43,7 +62,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         //  home: SignInPage(),
-        home: user == null ? SignInPage():BottomNavigationPage(),
+        home: _currentUser == null ? SignInPage():BottomNavigationPage(),
        // home:MainPage(title: "d"),
       ),
     );

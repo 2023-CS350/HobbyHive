@@ -107,9 +107,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 children: [
                   ElevatedButton(
                     onPressed: () async {
-                      await signInWithEmailAndPassword(
-                          _emailTextController.text,
-                          _passwordTextController.text);
+                      await _firebaseSignUp(_emailTextController.text.trim(),
+                          _passwordTextController.text.trim());
                       showDialog(
                         context: context,
                         barrierDismissible: false, // 바깥을 탭해도 대화상자가 닫히지 않습니다.
@@ -146,7 +145,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Future<void> signInWithEmailAndPassword(String email, String password) async {
+  Future<void> _firebaseSignUp(String email, String password) async {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
