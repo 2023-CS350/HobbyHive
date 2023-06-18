@@ -75,9 +75,20 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         key: _scaffoldKey,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            // 버튼을 눌렀을 때 수행할 액션을 여기에 쓰세요.
+          },
+          child: Icon(Icons.add), // 버튼 안의 아이콘
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(16.0),
+            ),
+          ),
+        ),
         body: SafeArea(
           child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+            padding: EdgeInsets.fromLTRB(20, 100, 20, 80),
             child: Container(
                 child: Stack(children: [
               Container(
@@ -85,13 +96,73 @@ class _MainPageState extends State<MainPage> {
                 child: SwipeCards(
                   matchEngine: _matchEngine!,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      alignment: Alignment.center,
-                      color: _swipeItems[index].content.color,
-                      child: Text(
-                        _swipeItems[index].content.text,
-                        style: TextStyle(fontSize: 100),
-                      ),
+                    return Stack(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: _swipeItems[index].content.color,
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20.0),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.grey.withOpacity(0.9),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3), // 그림자 위치
+                              ),
+                            ],
+                          ),
+                          child: Text(
+                            _swipeItems[index].content.text,
+                            style: TextStyle(fontSize: 100),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.bottomCenter,
+                          child: Container(
+                            width: 280,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(20.0),
+                                topRight: Radius.circular(20.0),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "Hiking",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                        ),
+                                      ),
+                                      Text(" | Let's walk the sky",
+                                      style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                            color: Colors.pink
+                                        ),
+                                      
+                                      ),
+                                    ],
+                                  ),
+                                  Text("10km away")
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
                     );
                   },
                   onStackFinished: () {
@@ -110,16 +181,24 @@ class _MainPageState extends State<MainPage> {
                   likeTag: Container(
                     margin: const EdgeInsets.all(15.0),
                     padding: const EdgeInsets.all(3.0),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.green)),
-                    child: Text('Like'),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green),
+                    ),
+                    child: Text(
+                      'Like',
+                      style: TextStyle(color: Colors.green, fontSize: 60),
+                    ),
                   ),
                   nopeTag: Container(
                     margin: const EdgeInsets.all(15.0),
                     padding: const EdgeInsets.all(3.0),
-                    decoration:
-                        BoxDecoration(border: Border.all(color: Colors.red)),
-                    child: Text('Nope'),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red),
+                    ),
+                    child: Text(
+                      'Nope',
+                      style: TextStyle(color: Colors.red, fontSize: 60),
+                    ),
                   ),
                   superLikeTag: Container(
                     margin: const EdgeInsets.all(15.0),
@@ -130,27 +209,26 @@ class _MainPageState extends State<MainPage> {
                   ),
                 ),
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    RoundedTransparentButton(
-                      onPressed: () {
-                        _matchEngine!.currentItem?.nope();
-                      },
-                      kind: ButtonType.nope,
-                    ),
-                    RoundedTransparentButton(
-                      onPressed: () {
-                        _matchEngine!.currentItem?.like();
-                      },
-                      kind: ButtonType.like,
-                    ),
-                  
-                  ],
-                ),
-              )
+              // Align(
+              //   alignment: Alignment.bottomCenter,
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     children: [
+              //       RoundedTransparentButton(
+              //         onPressed: () {
+              //           _matchEngine!.currentItem?.nope();
+              //         },
+              //         kind: ButtonType.nope,
+              //       ),
+              //       RoundedTransparentButton(
+              //         onPressed: () {
+              //           _matchEngine!.currentItem?.like();
+              //         },
+              //         kind: ButtonType.like,
+              //       ),
+              //     ],
+              //   ),
+              // )
             ])),
           ),
         ));
