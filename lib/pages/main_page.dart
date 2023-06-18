@@ -38,19 +38,19 @@ class _MainPageState extends State<MainPage> {
     "Purple",
     "Pink"
   ];
-  final List<Color> _colors = [
-    Colors.red,
-    Colors.blue,
-    Colors.green,
-    Colors.yellow,
-    Colors.orange,
-    Colors.grey,
-    Colors.purple,
-    Colors.pink
-  ];
+  // final List<Color> _colors = [
+  //   Colors.red,
+  //   Colors.blue,
+  //   Colors.green,
+  //   Colors.yellow,
+  //   Colors.orange,
+  //   Colors.grey,
+  //   Colors.purple,
+  //   Colors.pink
+  // ];
 
-  List<Event> eventList = [];
-  List<String> eventImageList = [];
+  List<Event> _eventList = [];
+  List<String> _eventImageList = [];
   @override
   void initState() {
     _getUserEvents();
@@ -77,34 +77,31 @@ class _MainPageState extends State<MainPage> {
       var each = Event.fromJson(eachEvent);
       Reference ref = storage.ref().child('events/${each.event_image}');
       String downloadURL = await ref.getDownloadURL();
-      eventImageList.add(downloadURL);
+      _eventImageList.add(downloadURL);
 
-      eventList.add(each);
+      _eventList.add(each);
     }
-    for (int i = 0; i < eventList.length; i++) {
+    for (int i = 0; i < _eventList.length; i++) {
       _swipeItems.add(SwipeItem(
-          content: Content(text: _names[i], color: _colors[i]),
+          // content: Content(text: _names[i], color: _colors[i]),
           likeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Liked ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
-          nopeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Nope ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
-          superlikeAction: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text("Superliked ${_names[i]}"),
-              duration: Duration(milliseconds: 500),
-            ));
-          },
-          onSlideUpdate: (SlideRegion? region) async {
-            print("Region $region");
-          }));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Liked"),
+          duration: Duration(milliseconds: 500),
+        ));
+      }, nopeAction: () {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Nope"),
+          duration: Duration(milliseconds: 500),
+        ));
+      }, superlikeAction: () {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Superliked"),
+          duration: Duration(milliseconds: 500),
+        ));
+      }, onSlideUpdate: (SlideRegion? region) async {
+        print("Region $region");
+      }));
     }
 
     //  _matchEngine = MatchEngine(swipeItems: _swipeItems);
@@ -132,11 +129,14 @@ class _MainPageState extends State<MainPage> {
                   Radius.circular(20.0),
                 ),
               ),
-              child: CachedNetworkImage(
-                imageUrl: (eventImageList[index]),
-                placeholder: (context, url) => CircularProgressIndicator(),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-                 fit: BoxFit.cover,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: CachedNetworkImage(
+                  imageUrl: (_eventImageList[index]),
+                  placeholder: (context, url) => CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -161,14 +161,14 @@ class _MainPageState extends State<MainPage> {
                     Row(
                       children: [
                         Text(
-                          eventList[index].event_name,
+                          _eventList[index].event_name,
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
                           ),
                         ),
                         Text(
-                          " | ${eventList[index].description}",
+                          " | ${_eventList[index].description}",
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 18,
@@ -176,7 +176,7 @@ class _MainPageState extends State<MainPage> {
                         ),
                       ],
                     ),
-                    Text("10km away")
+                    Text(_eventList[index].address),
                   ],
                 ),
               ),
@@ -225,7 +225,7 @@ class _MainPageState extends State<MainPage> {
                         ));
                       },
                       itemChanged: (SwipeItem item, int index) {
-                        print("item: ${item.content.text}, index: $index");
+                        print(index);
                       },
                       leftSwipeAllowed: true,
                       rightSwipeAllowed: true,
@@ -288,22 +288,22 @@ class _MainPageState extends State<MainPage> {
   }
 }
 
-class Content {
-  final String? text;
-  final Color? color;
-  final String? imageURL;
-  final String? name;
-  final String? hobby;
-  final String? distance;
+// class Content {
+//   final String? text;
+//   final Color? color;
+//   final String? imageURL;
+//   final String? name;
+//   final String? hobby;
+//   final String? distance;
 
-  Content(
-      {this.imageURL,
-      this.name,
-      this.hobby,
-      this.distance,
-      this.text,
-      this.color});
-}
+//   Content(
+//       {this.imageURL,
+//       this.name,
+//       this.hobby,
+//       this.distance,
+//       this.text,
+//       this.color});
+// }
 
 class RoundedTransparentButton extends StatelessWidget {
   final VoidCallback onPressed;

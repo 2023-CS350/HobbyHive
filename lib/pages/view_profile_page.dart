@@ -59,6 +59,7 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                     style: TextStyle(
                       fontSize: 16.0,
                     )),
+                  
               ],
             ),
           ),
