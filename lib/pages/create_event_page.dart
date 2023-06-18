@@ -4,6 +4,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/models/event_model.dart';
 import 'package:hobby_hive/widgets/loading_indicator.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
@@ -27,13 +28,13 @@ class _CreateEventPageState extends State<CreateEventPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return _isLoading
+          ? LoadingIndicator()
+          : Scaffold(
       appBar: AppBar(
         title: const Text('Create Event'),
       ),
-      body: _isLoading
-          ? LoadingIndicator()
-          : SingleChildScrollView(
+      body: SingleChildScrollView(
             child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -177,14 +178,15 @@ class _CreateEventPageState extends State<CreateEventPage> {
                           // 업로드 또는 URL 얻어오기 중에 발생한 에러 처리
                           print(e);
                         }
-                        await events.add({
-                          'event_name': _eventNameController.text,
-                          'address': _locationController.text,
-                          'description': _descriptionController.text,
-                          'date': _selectedDate, // 현재 시간을 Timestamp로 저장
-                          'event_image': randomUuid,
-                          'host_id': hostID,
-                        }).then((value) {
+                        Event newEvent = Event(
+                          event_name: _eventNameController.text,
+                          address: _locationController.text,
+                          description: _descriptionController.text,
+                          date: _selectedDate,
+                          event_image: randomUuid,
+                          host_id: hostID,
+                        );
+                        await events.add(newEvent.toJson()).then((value) {
                           print("이벤트가 추가되었습니다.");
                           Navigator.pop(context);
                         }).catchError(
