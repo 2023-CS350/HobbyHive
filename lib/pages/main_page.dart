@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/pages/create_event_page.dart';
 import 'package:swipe_cards/draggable_card.dart';
 import 'package:swipe_cards/swipe_cards.dart';
 
@@ -77,7 +78,12 @@ class _MainPageState extends State<MainPage> {
         key: _scaffoldKey,
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            // 버튼을 눌렀을 때 수행할 액션을 여기에 쓰세요.
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateEventPage(),
+              ),
+            );
           },
           child: Icon(Icons.add), // 버튼 안의 아이콘
           shape: RoundedRectangleBorder(
