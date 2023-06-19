@@ -56,9 +56,9 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                 runSpacing: 5.0,
                 alignment: WrapAlignment.center,
                 children: [
-                  InterestChip("interest1", const Color(0xFFff6666)),
+                  interestChip("interest1", const Color(0xFFff6666), (_) => {}),
                   const SizedBox(width: 10),
-                  InterestChip("interest2", const Color(0xFFff6666)),
+                  interestChip("interest2", const Color(0xFFff6666), (_) => {}),
                 ],
               ),
               const SizedBox(height: 15),

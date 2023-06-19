@@ -1,97 +1,30 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/models/user_model.dart' as user_model;
+import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+import 'package:hobby_hive/models/user_model.dart';
 
-class FixProfileWidget extends StatelessWidget {
+import '../widgets/interest_chip.dart';
+
+class FixProfileWidget extends StatefulWidget {
+  const FixProfileWidget({Key? key}) : super(key: key);
+
   @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider<UserProfileProvider>(
-      create: (_) => UserProfileProvider(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('Fix User Profile'),
-        ),
-        body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: CircleAvatar(
-                  radius: 64.0,
-                  backgroundImage: AssetImage('profile_image_path'),
-                  // Update profile photo functionality can be added here
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Text('Name', style: TextStyle(fontSize: 18.0)),
-              TextFormField(
-                onChanged: (value) {
-                  Provider.of<UserProfileProvider>(context, listen: false)
-                      .setName(value);
-                },
-                decoration: InputDecoration(
-                  hintText: 'Enter your name',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Text('Biography', style: TextStyle(fontSize: 18.0)),
-              TextFormField(
-                onChanged: (value) {
-                  Provider.of<UserProfileProvider>(context, listen: false)
-                      .setBiography(value);
-                },
-                decoration: InputDecoration(
-                  hintText: 'Enter your biography',
-                ),
-              ),
-              SizedBox(height: 16.0),
-              Text('Interests', style: TextStyle(fontSize: 18.0)),
-              Consumer<UserProfileProvider>(
-                builder: (context, userProfileProvider, _) {
-                  List<String> interests = userProfileProvider.interests;
-                  return Wrap(
-                    spacing: 8.0,
-                    runSpacing: 4.0,
-                    children: _buildInterestChips(
-                        interests, userProfileProvider.toggleInterest),
-                  );
-                },
-              ),
-              SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Profile update functionality can be added here
-                  Provider.of<UserProfileProvider>(context, listen: false)
-                      .updateProfile();
-                },
-                child: Text('Update Profile'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  List<Widget> _buildInterestChips(
-      List<String> interests, Function(String) onInterestToggled) {
-    List<Widget> chips = [];
-    for (String interest in interests) {
-      chips.add(
-        FilterChip(
-          label: Text(interest),
-          selected: true, // You can modify this based on your implementation
-          onSelected: (_) => onInterestToggled(interest),
-        ),
-      );
-    }
-    return chips;
-  }
+  State<FixProfileWidget> createState() => _FixProfileWidgetState();
 }
 
-class UserProfileProvider with ChangeNotifier {
-  String _name = "";
-  String _biography = "";
+class _FixProfileWidgetState extends State<FixProfileWidget> {
+  var _image = null;
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _biographyController = TextEditingController();
+  List<String> _selectedInterests = [];
   List<String> _interests = [
     'Exercise',
     'Movies',
@@ -102,31 +35,151 @@ class UserProfileProvider with ChangeNotifier {
     'Reading',
     // Add more interests as desired
   ];
-
-  String get name => _name;
-  String get biography => _biography;
-  List<String> get interests => _interests;
-
-  void setName(String name) {
-    _name = name;
-    notifyListeners();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Profile'),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: GestureDetector(
+                  onTap: _getPhotoLibraryImage,
+                  child: CircleAvatar(radius: 64.0, backgroundImage: _image),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text('Name', style: TextStyle(fontSize: 18.0)),
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your name',
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text('Biography', style: TextStyle(fontSize: 18.0)),
+              TextFormField(
+                controller: _biographyController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your biography',
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Text('Interests', style: TextStyle(fontSize: 18.0)),
+              SizedBox(height: 8.0),
+              Wrap(
+                spacing: 8.0,
+                runSpacing: 4.0,
+                children: _buildInterestChips(),
+              ),
+              SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _updateProfile,
+                child: Text('Update Profile'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  void setBiography(String biography) {
-    _biography = biography;
-    notifyListeners();
-  }
-
-  void toggleInterest(String interest) {
-    if (_interests.contains(interest)) {
-      _interests.remove(interest);
-    } else {
-      _interests.add(interest);
+  List<Widget> _buildInterestChips() {
+    List<Widget> chips = [];
+    for (String interest in _interests) {
+      final isSelected = _selectedInterests.contains(interest);
+      chips.add(
+        FilterChip(
+          label: Text(interest),
+          selected: isSelected,
+          backgroundColor: isSelected ? Colors.grey : null,
+          onSelected: (bool selected) {
+            setState(() {
+              if (selected) {
+                _selectedInterests.add(interest);
+              } else {
+                _selectedInterests.remove(interest);
+              }
+            });
+          },
+        ),
+      );
     }
-    notifyListeners();
+    return chips;
   }
 
-  void updateProfile() {
-    // Implement your logic for updating the profile
+  _getPhotoLibraryImage() async {
+    if (!(await Permission.photos.request().isGranted)) {
+      permission();
+    }
+    final pickedImage =
+        await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _image = File(pickedImage.path);
+      });
+    }
   }
+
+  _updateProfile() async {
+    try {
+      // Get the current user ID from Firebase Authentication (Replace with your own implementation)
+      final userId = 'currentUserId';
+
+      // Create a reference to the Firestore collection where user profiles are stored
+      var userID = FirebaseAuth.instance.currentUser!.uid;
+      final profileRef = FirebaseFirestore.instance.collection('profiles');
+      var image = "";
+
+      // Upload the profile image if available
+      if (_image != null) {
+        final imageUrl = await _uploadImage(userId);
+        image = imageUrl;
+      }
+
+      user_model.User user = user_model.User(
+          id: userID,
+          userName: _nameController.text,
+          profileImage: image,
+          biography: _biographyController.text,
+          interest: _selectedInterests);
+
+      // Update the profile data in Firestore
+      print(user.toJson());
+      await profileRef.doc(userId).update(user.toJson());
+
+      // Show a success message or navigate to another screen
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Profile updated successfully')),
+      );
+    } catch (e) {
+      // Handle any errors that occur during the profile update
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update profile')),
+      );
+      print(e);
+    }
+  }
+
+  Future<String> _uploadImage(String userId) async {
+    final storageRef =
+        FirebaseStorage.instance.ref().child('profile_images/$userId.jpg');
+    final uploadTask = storageRef.putFile(_image!);
+    final snapshot = await uploadTask.whenComplete(() => null);
+    final imageUrl = await snapshot.ref.getDownloadURL();
+    return imageUrl;
+  }
+}
+
+void permission() async {
+  Map<Permission, PermissionStatus> permissions = await [
+    Permission.photos,
+  ].request();
+  print(permissions[Permission.photos]);
 }
