@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hobby_hive/widgets/interest_chip.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hobby_hive/models/user_model.dart' as user_model;
 
 import 'chatroom.dart';
 import 'fix_profile_page.dart';
@@ -12,6 +15,53 @@ class ViewProfilePage extends StatefulWidget {
 }
 
 class _ViewProfilePageState extends State<ViewProfilePage> {
+  late DocumentSnapshot userSnapshot;
+  late String userName = "";
+  late String biography = "";
+  late int score = 5;
+  late List<String> interests = [];
+  late String address = "";
+  late user_model.User user;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserProfile();
+  }
+
+  Future<void> fetchUserProfile() async {
+    try {
+      var userID = FirebaseAuth.instance.currentUser!.uid;
+      final userDoc = await FirebaseFirestore.instance
+          .collection('profiles')
+          .doc(userID)
+          .get();
+      if (userDoc.exists) {
+        print(userDoc.data());
+        setState(() {
+          userSnapshot = userDoc;
+          userName = userSnapshot.data().toString().contains("user_name")
+              ? userSnapshot.get("user_name")
+              : "";
+          biography = userSnapshot.data().toString().contains("biographie")
+              ? userSnapshot.get("biographie")
+              : "";
+          score = userSnapshot.data().toString().contains("score")
+              ? userSnapshot.get("score")
+              : "";
+          interests = userSnapshot.data().toString().contains("interest")
+              ? List<String>.from(userSnapshot['interest'])
+              : [];
+          address = userSnapshot.data().toString().contains("address")
+              ? userSnapshot.get("address")
+              : "";
+        });
+      }
+    } catch (e) {
+      print('Error fetching user profile: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,21 +76,21 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
             children: [
               const CircleAvatar(radius: 60.0),
               const SizedBox(height: 15),
-              const Text(
-                'John Doe',
-                style: TextStyle(
+              Text(
+                userName,
+                style: const TextStyle(
                   fontSize: 26.0,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8.0),
-              _rating(3),
+              _score(score),
               const SizedBox(height: 15),
-              const Text(
-                'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+              Text(
+                biography,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),
@@ -54,19 +104,23 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
               ),
               const SizedBox(height: 10),
               Wrap(
-                runSpacing: 5.0,
+                spacing: 15.0,
                 alignment: WrapAlignment.center,
-                children: [
-                  interestChip("interest1", const Color(0xFFff6666), (_) => {}),
-                  const SizedBox(width: 10),
-                  interestChip("interest2", const Color(0xFFff6666), (_) => {}),
-                ],
+                children: interests
+                    .map(
+                      (interest) => interestChip(
+                        interest,
+                        const Color(0xFFff6666),
+                        (_) => {},
+                      ),
+                    )
+                    .toList(),
               ),
               const SizedBox(height: 15),
-              const Text(
-                'Address',
+              Text(
+                address,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16.0,
                 ),
               ),
@@ -89,14 +143,14 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
   }
 }
 
-Widget _rating(int rating) {
+Widget _score(int score) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     mainAxisSize: MainAxisSize.min,
     children: [
       for (int i = 0; i < 5; i++)
         Icon(
-          i < rating ? Icons.star : Icons.star_border,
+          i < score ? Icons.star : Icons.star_border,
           color: Colors.amber,
           size: 30,
         ),

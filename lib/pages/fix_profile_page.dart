@@ -114,15 +114,17 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
   }
 
   _getPhotoLibraryImage() async {
-    if (!(await Permission.photos.request().isGranted)) {
-      permission();
+    var status = await Permission.photos.request().isGranted;
+    if (status) {
+      // Here you can open app settings so that the user can give permission
+      openAppSettings();
     }
     final pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       setState(() {
-        _image = File(pickedImage.path);
+        _image = Image.file(File(_image));
       });
     }
   }
