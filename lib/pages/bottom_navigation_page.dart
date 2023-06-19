@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:hobby_hive/pages/main_page.dart';
+import 'package:hobby_hive/pages/view_profile_page.dart';
 import 'package:hobby_hive/widgets/loading_indicator.dart';
 
 class NavigationPage extends StatefulWidget {
@@ -15,7 +16,7 @@ class _NavigationPageState extends State<NavigationPage> {
   final _pageList = [
     MainPage(),
     Placeholder(),
-    TempSignOut(),
+    ViewProfilePage(),
   ];
   void onTabTapped(int index) {
     setState(() {
