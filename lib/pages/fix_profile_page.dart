@@ -129,9 +129,6 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
 
   _updateProfile() async {
     try {
-      // Get the current user ID from Firebase Authentication (Replace with your own implementation)
-      final userId = 'currentUserId';
-
       // Create a reference to the Firestore collection where user profiles are stored
       var userID = FirebaseAuth.instance.currentUser!.uid;
       final profileRef = FirebaseFirestore.instance.collection('profiles');
@@ -139,7 +136,7 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
 
       // Upload the profile image if available
       if (_image != null) {
-        final imageUrl = await _uploadImage(userId);
+        final imageUrl = await _uploadImage(userID);
         image = imageUrl;
       }
 
@@ -151,8 +148,7 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
           interest: _selectedInterests);
 
       // Update the profile data in Firestore
-      print(user.toJson());
-      await profileRef.doc(userId).update(user.toJson());
+      await profileRef.doc(userID).set(user.toJson());
 
       // Show a success message or navigate to another screen
       ScaffoldMessenger.of(context).showSnackBar(
