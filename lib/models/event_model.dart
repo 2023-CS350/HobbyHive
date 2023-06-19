@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Event {
   final String event_name;
@@ -29,7 +28,6 @@ class Event {
         'host_id': host_id,
       };
   factory Event.fromJson(Map<String, dynamic> json) {
-    
     return Event(
       event_name: json['event_name'],
       address: json['address'],

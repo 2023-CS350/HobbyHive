@@ -144,6 +144,7 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
           id: userID,
           userName: _nameController.text,
           profileImage: image,
+          score: 5,
           biography: _biographyController.text,
           interest: _selectedInterests);
 
