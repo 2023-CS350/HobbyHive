@@ -86,7 +86,7 @@ In accordance with the requirements laid out by the client, we set out to develo
 
 In the early stages of the project, we worked with the client. We analyzed the SRS (Software Requirements Specification) document provided by the client and used it to refine the product specification. We regularly exchanged views via email and answered questions to clarify the product requirements.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b1baa1ba-76cd-4f72-97fc-205884ac1c87/Untitled.png)
+![client_email](client_email.png)
 
 ### 3.1.2 Product requirements specification
 
@@ -110,13 +110,13 @@ We implemented data management for the app using Firebase's database service, Fi
 
 Since we were a team of developers without a designer, we used a no-code tool called Flutterflow to streamline our design work. Flutterflow gives you the ability to configure the design of your app through a visual interface. This made it easy for developers without design expertise to place UI elements and organize the overall layout of the app.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/12466430-5574-435a-a363-1bcafb6619d3/Untitled.png)
+![ff_design](ff_design.png)
 
 ### 3.2.2 Prototype development with Flutterflow
 
 We used Flutterflow to prototype the app. Flutterflow provides the ability to visually assemble user interface elements to simulate the behavior and flow of the app. This allowed us to better communicate with the client, and we were able to quickly demonstrate early looks of the app and get feedback.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/8872dae4-882e-4a0b-8a94-b1237ac49b1b/Untitled.png)
+![ff_prototype](ff_prototype.png)
 
 ### 3.2.3 Integrating Flutter design components into front-end development
 
@@ -132,6 +132,8 @@ Our team considered Kanban and Scrum to effectively manage our project. Kanban i
 
 We anticipated that our team would have difficulty following strict iteration due to the high variability of team members' work, so we adopted Kanban for project management to account for this difficulty. Kanban was better suited to our team's collaborative work, as it is a fluid way of managing tasks as flows, with the flexibility to add or remove tasks as needed.
 
+![kanban](kanban.png)
+
 ### 3.3.3 Setting Work-in-Progress limits for collaborative and fluid work
 
 To keep our work collaborative and flexible, we set Work-in-Progress (WIP) limits. By limiting the number of tasks that can be in progress at one time, WIP limits create an environment where team members can stay focused and complete their work. This allowed us to maintain efficient collaboration and clearly prioritize tasks.
@@ -142,7 +144,7 @@ To keep our work collaborative and flexible, we set Work-in-Progress (WIP) limit
 
 During the development of our project, our team used GitHub-Flow, a simpler and more flexible branching strategy than Git-Flow. GitHub-Flow is organized into main and protected branches, and tasks such as feature development or bug fixes are performed in each branch. This approach provided developers with a free flow of work while ensuring the stability of the code.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ab214ae2-ef35-4d01-be37-fb377d8dca8c/Untitled.png)
+![github_flow](github_flow.png)
 
 ### 3.4.2 Establish commit message guidelines
 
@@ -154,7 +156,7 @@ In terms of commit messages, we established a structured format: {Type}: {Descri
 
 Adhering to these commit message guidelines proved highly beneficial. They enhanced our ability to track modifications, understand the context of changes, and conduct efficient code reviews. The clarity and conciseness of the commit messages ensured effective collaboration throughout the development process.
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a0a6c22e-f80e-49d9-a100-82ada4600ba7/Untitled.png)
+![commit_message](commit_message.png)
 
 ### 3.4.3 Collaborative development with GitHub-Flow
 
