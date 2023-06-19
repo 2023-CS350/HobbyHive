@@ -3,6 +3,7 @@ class User {
   final String userName;
   final String profileImage;
   final String biography;
+  final int score;
   final List<String> interest;
 
   User({
@@ -10,6 +11,7 @@ class User {
     required this.userName,
     required this.profileImage,
     required this.biography,
+    required this.score,
     required this.interest,
   });
 
@@ -19,6 +21,7 @@ class User {
       userName: json['user_name'],
       profileImage: json['profile_image'],
       biography: json['biographie'],
+      score: json['score'],
       interest: List<String>.from(json['interest']),
     );
   }
@@ -29,6 +32,7 @@ class User {
       'user_name': userName,
       'profile_image': profileImage,
       'biographie': biography,
+      'score': score,
       'interest': interest,
     };
   }

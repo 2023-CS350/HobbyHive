@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hobby_hive/widgets/interest_chip.dart';
 
+import 'chatroom.dart';
 import 'fix_profile_page.dart';
 
 class ViewProfilePage extends StatefulWidget {
