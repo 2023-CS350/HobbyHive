@@ -49,9 +49,17 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
             children: [
               Center(
                 child: GestureDetector(
-                  onTap: _getPhotoLibraryImage,
-                  child: CircleAvatar(radius: 64.0, backgroundImage: _image),
-                ),
+                    onTap: _getPhotoLibraryImage,
+                    child: CircleAvatar(
+                      radius: 64.0,
+                      child: ClipOval(
+                          child: Image.file(
+                        _image,
+                        fit: BoxFit.fill,
+                        width: 200,
+                        height: 200,
+                      )),
+                    )),
               ),
               SizedBox(height: 16.0),
               Text('Name', style: TextStyle(fontSize: 18.0)),
@@ -124,7 +132,7 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
 
     if (pickedImage != null) {
       setState(() {
-        _image = Image.file(File(_image));
+        _image = (File(pickedImage.path));
       });
     }
   }
