@@ -126,16 +126,14 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                       biography,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontSize: 16.0,
-                      ),
+                          fontSize: 16.0, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 15),
                     const Text(
                       'Interests',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16.0,
-                      ),
+                          fontSize: 16.0, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
                     Wrap(
@@ -156,17 +154,16 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                       'Hosting Events',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16.0,
-                      ),
+                          fontSize: 16.0, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
                     _buildEventList(true),
+                    const SizedBox(height: 10),
                     const Text(
                       'Participating Events',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16.0,
-                      ),
+                          fontSize: 16.0, fontWeight: FontWeight.w700),
                     ),
                     const SizedBox(height: 10),
                     _buildEventList(false),
