@@ -162,15 +162,45 @@ Adhering to these commit message guidelines proved highly beneficial. They enhan
 
 Our team utilized GitHub-Flow for collaborative development. Each feature or task that needed to be fixed was developed in a separate branch, and once the task was completed, that branch was merged into the main branch. This allowed multiple developers to work simultaneously and ensured efficient development while maintaining consistency and stability of the code.
 
-## 3.5 CI/CD
+## 3.5 CI/CD and Testing
 
-### 3.5.1 Implementing CI/CD with GitHub Actions
+Continuous Integration (CI) and Continuous Deployment (CD) are crucial practices in software development that help streamline the development process and ensure the delivery of high-quality software. In this chapter, we will explore the CI/CD implementation for our project using GitHub Actions and Fastlane.
 
-Our team utilized GitHub Actions for continuous integration and deployment. GitHub Actions are used to automate the development process by automatically performing tasks such as build, test, and deploy whenever a source code change occurs. We set up a GitHub Actions workflow by defining the build, test, and required deployment steps for our app. This allowed us to automatically go through the development process whenever there was a code change and maintain a stable app.
+### 3.5.1 CI with GitHub Actions
 
-### 3.5.2 Ensure code review efficiency by ensuring adherence to the style guide and leaner
+GitHub Actions is a powerful automation platform provided by GitHub. It allows us to define workflows that automate various tasks, including building, testing, and deploying our application. With GitHub Actions, we can set up a CI workflow that runs on every Pull Request (PR), providing continuous integration for our project.
 
-Our team adopted a style guide and a linter to maintain consistency and quality in our code. Developers wrote code according to the style guide, and the linter detected potential errors or anti-patterns in the code. GitHub Actions automatically checked code for compliance with the requirements of the style guide and leaner, which increased efficiency in the code review process. Developers could see the results of the style guide and leaner's checks when reviewing code changes, making their feedback more focused.
+In our CI workflow, we utilize GitHub Actions to build our Android and iOS Flutter app. The workflow includes configuring the necessary build environment, setting up pub caching for efficient package management, and securely managing sensitive information such as the Firebase config file secret. By running the CI workflow on every PR, reviewers can have increased confidence in the code changes and catch any potential issues early in the development process.
+
+### 3.5.2 CD with Fastlane
+
+Fastlane is a popular tool for automating the deployment process for mobile applications. It simplifies the complex tasks involved in releasing mobile apps to app stores and enables streamlined CD.
+
+For the Android app, our CD process involves multiple steps. First, we set the version code dynamically based on the current year and month to ensure uniqueness which format is {yy - 21}mmddHHMM. Then, we apply the version code in the pubspec.yaml file, which is essential for proper version management. Next, we build the Gradle project in release mode, incorporating necessary signing configurations to generate signed APKs. Finally, we upload the built app to the alpha track on the Google Play Console, making it available for internal testing.
+
+On the other hand, for the iOS app, our CD process begins with setting the version code specific format (yymmdd.HHMM). We then run `flutter pub get` and `pod install` to fetch dependencies and install Cocoapods. After that, we clean the Xcode project and use `xcodebuild` to build the app. Finally, we upload the app to TestFlight, Apple's platform for beta testing and app distribution.
+
+By leveraging Fastlane for CD, we automate these complex deployment tasks, saving time and reducing the chances of errors during the release process. The CI/CD pipeline ensures that our app is built, tested, and ready for deployment with consistent and reliable processes.
+
+Please note that the specific configurations and steps outlined here may vary depending on your project's requirements and preferences. Customization and adaptation of the CI/CD processes are essential to fit your specific development environment and tools.
+
+### 3.5.3 Widget Test
+
+Testing is a crucial aspect of software development that ensures the reliability, functionality, and user satisfaction of an application. In the context of Flutter apps, widgets play a fundamental role in defining the user interface and user experience. Therefore, it is imperative to thoroughly test widgets to achieve high-quality, bug-free applications. This section of the report explores the importance of test coverage and provides an overview of testing methods for widgets in Flutter apps.
+
+Test coverage refers to the extent to which a software system is tested by a set of test cases. It measures the percentage of code or functionality covered by tests. Adequate test coverage is vital.
+When it comes to testing widgets in Flutter apps, the framework provides several testing methods to choose from.
+
+1. Unit Testing: Unit tests focus on testing individual widgets or small, isolated sections of the code. These tests verify the behavior of specific methods, properties, or UI components, ensuring they produce the expected results.
+2. Widget Testing: Widget tests are slightly higher-level tests that allow developers to test the interactions between multiple widgets and their integration into the app. These tests simulate user interactions and validate the resulting UI changes and state transitions.
+3. Integration Testing: Integration tests examine how various widgets and components work together to achieve the desired functionality. These tests validate the behavior of different widgets and their interactions with external dependencies, such as APIs or databases.
+4. Automated UI Testing: Automated UI tests, also known as end-to-end (E2E) tests, simulate real user interactions with the app's UI. These tests ensure that the app functions correctly as a whole, from widget behavior to navigation and data flow.
+
+In our project, we choose widget testing, and we achieved code coverage at 29.5%.
+
+## Conclusion
+
+In conclusion, the implementation of CI/CD practices using GitHub Actions greatly streamlined our development process and facilitated the continuous integration and deployment of our Flutter and Firebase-based app. The automated build, test, and deployment processes ensured the stability, reliability, and efficient delivery of our app. By integrating GitHub Actions, we were able to achieve a seamless and reproducible workflow for both Android and iOS platforms, saving time and effort for our team. The lessons learned from this experience underscore the importance of adopting modern development practices and tools to enhance collaboration, code quality, and overall project success. For future projects, we recommend leveraging CI/CD practices early on and utilizing appropriate automation tools to improve efficiency and maintain high standards throughout the development lifecycle.
 
 # 4. Conclusion
 
