@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:hobby_hive/pages/accept_request.dart';
+import 'package:hobby_hive/pages/accept_request_page.dart';
 import 'package:hobby_hive/pages/bottom_navigation_page.dart';
+import 'package:hobby_hive/pages/chatroom_page.dart';
 import 'package:hobby_hive/pages/create_event_page.dart';
 import 'package:hobby_hive/pages/main_page.dart';
 import 'package:hobby_hive/pages/sign_in_page.dart';
@@ -67,6 +68,18 @@ class _MyAppState extends State<MyApp> {
         home: _currentUser == null ? LandingPage() : NavigationPage(),
         routes: {
           AcceptRequest.routeName: (context) => AcceptRequest(),
+        },
+        onGenerateRoute: (settings) {
+          if (settings.name == ChatRoomWidget.routeName) {
+            final args = settings.arguments as EventArgument;
+            return MaterialPageRoute(
+              builder: (context) {
+                return ChatRoomWidget(
+                  eventId: args.eventID,
+                );
+              },
+            );
+          }
         },
         // home:MainPage(title: "d"),
       ),

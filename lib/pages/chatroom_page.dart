@@ -3,10 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:hobby_hive/models/chat_model.dart';
 import 'package:hobby_hive/models/chatroom_model.dart';
+import 'package:hobby_hive/pages/view_profile_page.dart';
 
 class ChatRoomWidget extends StatefulWidget {
-  const ChatRoomWidget({Key? key}) : super(key: key);
-
+  const ChatRoomWidget({Key? key, required this.eventId}) : super(key: key);
+  final String eventId;
+  static const routeName = "/chatroom";
   @override
   _ChatRoomWidgetState createState() => _ChatRoomWidgetState();
 }
@@ -14,31 +16,30 @@ class ChatRoomWidget extends StatefulWidget {
 class _ChatRoomWidgetState extends State<ChatRoomWidget> {
   late CollectionReference _chatCollection =
       FirebaseFirestore.instance.collection('chat_rooms');
-  final userId = FirebaseAuth.instance.currentUser?.uid ?? "error";
-  final ChatRoom _chatRoom = ChatRoom(
-    id: 'YOUR_CHAT_ROOM_ID',
-    eventId: 'YOUR_EVENT_ID',
-    messages: [],
-  );
+  final userId = FirebaseAuth.instance.currentUser!.uid;
+  late String _id = widget.eventId;
+  late String _eventId = widget.eventId;
+  late List<Message> _messages = [];
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    print(widget.eventId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _asyncMethod();
     });
   }
 
   void _asyncMethod() async {
-    DocumentReference chatRoomDoc = _chatCollection.doc('YOUR_CHAT_ROOM_ID');
+    DocumentReference chatRoomDoc = _chatCollection.doc(_eventId);
 
     // Check if the chat room document exists
     bool chatRoomExists =
         await chatRoomDoc.get().then((docSnapshot) => docSnapshot.exists);
-
     if (!chatRoomExists) {
       // Chat room document doesn't exist, create a new one
+      final _chatRoom =
+          ChatRoom(id: _id, eventId: _eventId, messages: _messages);
       await chatRoomDoc.set(_chatRoom.toJson());
     }
   }
@@ -53,7 +54,12 @@ class _ChatRoomWidgetState extends State<ChatRoomWidget> {
         sender: userId,
       );
 
-      DocumentReference chatRoomDoc = _chatCollection.doc('YOUR_CHAT_ROOM_ID');
+      DocumentReference chatRoomDoc = _chatCollection.doc(_eventId);
+
+      setState(() {
+        _messages.add(newMessage);
+        _messageController.clear();
+      });
 
       // Check if the chat room document exists
       bool chatRoomExists =
@@ -70,11 +76,6 @@ class _ChatRoomWidgetState extends State<ChatRoomWidget> {
           'messages': [newMessage.toJson()],
         });
       }
-
-      setState(() {
-        _chatRoom.messages.add(newMessage);
-        _messageController.clear();
-      });
     }
   }
 
@@ -88,20 +89,20 @@ class _ChatRoomWidgetState extends State<ChatRoomWidget> {
         children: [
           Expanded(
             child: StreamBuilder<DocumentSnapshot>(
-              stream: _chatCollection.doc('YOUR_CHAT_ROOM_ID').snapshots(),
+              stream: _chatCollection.doc(_eventId).snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasData && snapshot.data != null) {
                   final messages = (snapshot.data!.data()
                       as Map<String, dynamic>)['messages'];
-                  _chatRoom.messages.clear();
+                  _messages.clear();
                   for (var messageData in messages) {
-                    _chatRoom.messages.add(Message.fromJson(messageData));
+                    _messages.add(Message.fromJson(messageData));
                   }
 
                   return ListView.builder(
-                    itemCount: _chatRoom.messages.length,
+                    itemCount: _messages.length,
                     itemBuilder: (context, index) {
-                      final message = _chatRoom.messages[index];
+                      final message = _messages[index];
                       return Align(
                         alignment: message.sender == userId
                             ? Alignment.centerRight
