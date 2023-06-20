@@ -104,9 +104,9 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                               CircularProgressIndicator(),
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
-                          fit: BoxFit.cover,
-                          width: 150,
-                          height: 150,
+                          fit: BoxFit.fill,
+                          height: 200,
+                          width: 120,
                         ),
                       ),
                     ),
@@ -200,6 +200,13 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
             .where('participants',
                 arrayContains: FirebaseAuth.instance.currentUser!.uid)
             .snapshots();
+    final redColors = [
+      Colors.red,
+      Colors.red[800],
+      Colors.red[700],
+      Colors.red[600],
+      Colors.red[500],
+    ];
     return StreamBuilder<QuerySnapshot>(
       stream: stream,
       builder: (context, snapshot) {
@@ -220,19 +227,41 @@ class _ViewProfilePageState extends State<ViewProfilePage> {
                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: _generateRandomColor(),
+                    color: redColors[index % redColors.length],
                     borderRadius: BorderRadius.circular(10.0),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        blurRadius: 5.0,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: ListTile(
-                    title: Text(eventJson.event_name),
-                    subtitle: Text(eventJson.date.toString()),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 10.0, horizontal: 20.0),
+                    title: Text(
+                      eventJson.event_name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      eventJson.date.toString().split(" ")[0] +
+                          "\n" +
+                          eventJson.description,
+                      style: const TextStyle(color: Colors.white),
+                    ),
                     onTap: () {
                       Navigator.pushNamed(
-                          context,
-                          isHost
-                              ? AcceptRequest.routeName
-                              : ChatRoomWidget.routeName,
-                          arguments: EventArgument(events[index].id));
+                        context,
+                        isHost
+                            ? AcceptRequest.routeName
+                            : ChatRoomWidget.routeName,
+                        arguments: EventArgument(events[index].id),
+                      );
                     },
                   ),
                 ),
