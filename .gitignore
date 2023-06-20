@@ -44,3 +44,6 @@
 
 # Flutter Web output directory
 **/build/web/
+
+# Test Coverage
+**/coverage/
