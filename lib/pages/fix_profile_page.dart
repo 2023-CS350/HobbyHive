@@ -35,6 +35,7 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
     'Reading',
     // Add more interests as desired
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,12 +54,14 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
                     child: CircleAvatar(
                       radius: 64.0,
                       child: ClipOval(
-                          child: Image.file(
-                        _image,
-                        fit: BoxFit.fill,
-                        width: 200,
-                        height: 200,
-                      )),
+                          child: _image == null
+                              ? Icon(Icons.photo_filter)
+                              : Image.file(
+                                  _image,
+                                  fit: BoxFit.fill,
+                                  width: 200,
+                                  height: 200,
+                                )),
                     )),
               ),
               SizedBox(height: 16.0),
@@ -70,7 +73,7 @@ class _FixProfileWidgetState extends State<FixProfileWidget> {
                 ),
               ),
               SizedBox(height: 16.0),
-              Text('Biography', style: TextStyle(fontSize: 18.0)),
+              Text('Biographie', style: TextStyle(fontSize: 18.0)),
               TextFormField(
                 controller: _biographyController,
                 decoration: InputDecoration(
