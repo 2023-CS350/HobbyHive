@@ -89,6 +89,10 @@ class _MainPageState extends State<MainPage> {
           content: Text("Liked"),
           duration: Duration(milliseconds: 500),
         ));
+        querySnapshot.docs[i].reference.update({
+          'candidates':
+              FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+        });
       }, nopeAction: () {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text("Nope"),

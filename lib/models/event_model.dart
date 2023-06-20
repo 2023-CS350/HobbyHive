@@ -7,8 +7,8 @@ class Event {
   final DateTime? date;
   final String event_image;
   final String host_id;
-
-  //변수만 입력하고 toJson하고 fromJson 만들어달라고 챗지피티에게 요청하면 코드 다 짜줍니다.
+  final List<String>? participants;
+  final List<String>? candidates;
 
   Event({
     required this.event_name,
@@ -17,16 +17,11 @@ class Event {
     required this.date,
     required this.event_image,
     required this.host_id,
-  });
+    List<String>? participants,
+    List<String>? candidates,
+  })  : participants = participants ?? [],
+        candidates = candidates ?? [];
 
-  Map<String, dynamic> toJson() => {
-        'event_name': event_name,
-        'address': address,
-        'description': description,
-        'date': Timestamp.fromDate(date!),
-        'event_image': event_image,
-        'host_id': host_id,
-      };
   factory Event.fromJson(Map<String, dynamic> json) {
     return Event(
       event_name: json['event_name'],
@@ -35,6 +30,21 @@ class Event {
       date: json['date'].toDate(),
       event_image: json['event_image'],
       host_id: json['host_id'],
+      participants: List<String>.from(json['participants'] ?? []),
+      candidates: List<String>.from(json['candidates'] ?? []),
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'event_name': event_name,
+      'address': address,
+      'description': description,
+      'date': Timestamp.fromDate(date!),
+      'event_image': event_image,
+      'host_id': host_id,
+      'participants': participants,
+      'candidates': candidates,
+    };
   }
 }
