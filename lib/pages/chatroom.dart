@@ -14,7 +14,7 @@ class ChatRoomWidget extends StatefulWidget {
 class _ChatRoomWidgetState extends State<ChatRoomWidget> {
   late CollectionReference _chatCollection =
       FirebaseFirestore.instance.collection('chat_rooms');
-  final userId = FirebaseAuth.instance.currentUser!.uid;
+  final userId = FirebaseAuth.instance.currentUser?.uid ?? "error";
   final ChatRoom _chatRoom = ChatRoom(
     id: 'YOUR_CHAT_ROOM_ID',
     eventId: 'YOUR_EVENT_ID',
