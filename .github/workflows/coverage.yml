@@ -1,0 +1,23 @@
+name: Coverage
+
+on: [push]
+
+env:
+  FLUTTER_VERSION: "3"
+
+jobs:
+  coverage:
+    name: Upload coverage to Codecov
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Test
+        run: ./test/run.sh
