@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hobby_hive/pages/accept_request.dart';
 import 'package:hobby_hive/pages/bottom_navigation_page.dart';
 import 'package:hobby_hive/pages/create_event_page.dart';
 import 'package:hobby_hive/pages/main_page.dart';
@@ -13,7 +14,7 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  
+
   runApp(const MyApp());
 }
 
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -62,8 +64,11 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.pink,
         ),
         //  home: SignInPage(),
-        home: _currentUser == null ? LandingPage():NavigationPage(),
-       // home:MainPage(title: "d"),
+        home: _currentUser == null ? LandingPage() : NavigationPage(),
+        routes: {
+          AcceptRequest.routeName: (context) => AcceptRequest(),
+        },
+        // home:MainPage(title: "d"),
       ),
     );
   }
